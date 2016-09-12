@@ -3,9 +3,9 @@
 #include <fstream>
 #include <cctype>
 
-uint wc(std::istream &is)
+unsigned int wc(std::istream &is)
 {
-	uint wc = 0;
+	unsigned int wc = 0;
 	int b = ' ', c;
 
 	while ((c = is.get()) != EOF) {
