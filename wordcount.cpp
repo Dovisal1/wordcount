@@ -1,52 +1,35 @@
+
 #include <iostream>
-#include <cstdlib>
 #include <fstream>
 #include <cctype>
 
-using namespace std;
-
-ifstream infile;
-
-int main()
+uint wc(std::istream &is)
 {
-	cout << "Please enter a filename in the current directory\n";
-	cout << "Don't forget to add the extension!\n";
-	cout << "Filename>>";
-	char file[50];
-	cin >> file;
+	uint wc = 0;
+	int b = ' ', c;
 
-	infile.open(file);
-	if ( !infile.is_open() ) {
-		cout << "ERROR: Unable to open file\n";
-		exit(1);
+	while ((c = is.get()) != EOF) {
+		if (isspace(b) && !isspace(c))
+			wc++;
+		b = c;
 	}
-	infile.clear();
 
-	int wordCount = 0;
-	bool foundNextWord(void);
+	return wc;
+}
 
-	while ( foundNextWord()  )
-		wordCount++;
+int main(int argc, char **argv)
+{
+	std::ifstream f;
+	if (argc == 2)
+		std::ifstream f(argv[1]);
 
-	cout << "File has " << wordCount << " words.\n";
+	std::istream &in = (argc == 2) ? f : std::cin;
 
-	infile.close();
+	std::cout << wc(in) << std::endl;
+
+	if (argc == 2) f.close();
+
 	return 0;
 }
 
-/************************************************/
 
-bool foundNextWord(void)
-{
-	int c;
-
-	while ( !infile.eof() && isspace(c = infile.get()) )
-		;
-
-	if (!infile.eof()) {
-		while ( !infile.eof() && isspace(c=infile.get()) )
-			;
-		return true;
-	}
-	return false;
-}
